@@ -15,14 +15,14 @@ app.post("/api/friends", function(req, res){
   var bestMatch = {
     name: "", photo: "", friendDiff: 1000
   }
+  // compare request.body questions to friends.js questions
   for (var i=0; i<friendData.length; i++){
     var currentFriend = friendData[i];
     totalDiff = 0;
     for (j=0; j<currentFriend.scores.length; j++){
-      var currentFriendScore = currentFriend.scores[j];
-      var currentUserScore = userScores[j];
-      totalDiff += Math.abs(currentFriendScore - parseInt(currentUserScore));
-
+      var currentFriendScore = parseInt(currentFriend.scores[j]);
+      var currentUserScore = parseInt(userScores[j]);
+      totalDiff += Math.abs(parseInt(currentFriendScore) - parseInt(currentUserScore));
     }
     if (totalDiff <= bestMatch.friendDiff){
       bestMatch.name = currentFriend.name;
@@ -30,13 +30,10 @@ app.post("/api/friends", function(req, res){
       bestMatch.friendDiff = totalDiff;
     }
   }
+  console.log(currentFriendScore);
+  console.log(currentUserScore);
+  // res.send();
   friendData.push(userData);
   res.json(bestMatch);
-
-  // compare request.body questions to friends.js questions
-
-  
-    // res.send();
-
 });
 }
